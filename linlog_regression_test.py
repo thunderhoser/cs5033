@@ -1,6 +1,19 @@
 """Simple experiment with linear or logistic regression.
 
 This script has only one predictor variable (x) and one target variable (y).
+
+You can run this script from the command line as follows:
+
+python2.7 linlog_regression_test.py --true_slope=10 \
+--true_intercept=-5 \
+--noise_standard_deviation=5 \
+--num_iterations=10000 \
+--learning_rate=0.001 \
+--logistic=0 \
+--output_dir_name="/home/username/linlog_regression_test"
+
+All input arguments have defaults, but I highly recommend that you change
+`output_dir_name`, since this path probably doesn't exist on your machine.
 """
 
 import os
