@@ -11,3 +11,6 @@ dist/
 # IntelliJ things.
 .idea/
 *.iml
+
+# Scratch space.
+fuckery.py
