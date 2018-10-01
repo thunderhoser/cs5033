@@ -60,16 +60,16 @@ DEFAULT_OUTPUT_DIR_NAME = (
 
 INPUT_ARG_PARSER = argparse.ArgumentParser()
 INPUT_ARG_PARSER.add_argument(
-    '--' + NUM_POINTS_ARG_NAME, type=int, required=False, default=1000,
+    '--' + NUM_POINTS_ARG_NAME, type=int, required=False, default=5000,
     help=NUM_POINTS_HELP_STRING)
 
 INPUT_ARG_PARSER.add_argument(
     '--' + LAG1_AUTOCORRELATION_ARG_NAME, type=float, required=False,
-    default=0.5, help=LAG1_AUTOCORRELATION_HELP_STRING)
+    default=0.9, help=LAG1_AUTOCORRELATION_HELP_STRING)
 
 INPUT_ARG_PARSER.add_argument(
     '--' + CONFIDENCE_LEVEL_ARG_NAME, type=float, required=False,
-    default=0.95, help=CONFIDENCE_LEVEL_HELP_STRING)
+    default=0.999, help=CONFIDENCE_LEVEL_HELP_STRING)
 
 INPUT_ARG_PARSER.add_argument(
     '--' + OUTPUT_DIR_ARG_NAME, type=str, required=False,
@@ -121,8 +121,14 @@ def _find_significance_threshold(num_points, confidence_level):
 
     min_absolute_t_value = t_distribution.ppf(
         q=(1. - confidence_level) / 2, df=num_points - 2, loc=0., scale=1.)
-    return numpy.power(
-        float(num_points - 2) / min_absolute_t_value ** 2 + 1, -0.5)
+
+    # return numpy.power(
+    #     float(num_points - 2) / min_absolute_t_value ** 2 + 1, -0.5)
+
+    return numpy.sqrt(
+        min_absolute_t_value ** 2 /
+        (min_absolute_t_value ** 2 + num_points - 2)
+    )
 
 
 def _compute_acf(values_in_series):
